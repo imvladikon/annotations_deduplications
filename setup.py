@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import os
-import warnings
-from distutils.version import LooseVersion
 import importlib
+import os
 
 import setuptools
 
