@@ -1,0 +1,6 @@
+numpy
+pandas
+scikit-learn
+pytextspan
+groupbyrule @ git+https://github.com/OlivierBinette/groupbyrule.git
+tqdm
