@@ -17,6 +17,8 @@ if __name__ == '__main__':
     arg_parser.add_argument('--output', type=str, required=True)
     arg_parser.add_argument('--skipped_records', type=str, required=True)
     arg_parser.add_argument('--unique_id', type=str, required=False, default="id")
+    arg_parser.add_argument('--blocking_attributes', nargs='+', type=str, default=["user", "metadata.url"],
+                            help='Attributes to use during blocking step (exact match)')
 
     args = arg_parser.parse_args()
 
@@ -36,9 +38,11 @@ if __name__ == '__main__':
         if args.skipped_records:
             logger.info(f"Writing skipped records to {args.skipped_records}")
 
+
             def without(record, key):
                 record.pop(key, None)
                 return record
+
 
             with open(args.skipped_records, 'w') as f:
                 for file_id, rs in groupby(skipped_records, key=lambda x: x["file_id"]):
@@ -57,7 +61,7 @@ if __name__ == '__main__':
     deduplicator = Deduplicator(
         comparators=[("text", is_overlap)],
         aggregation_strategy="mean",
-        blocking_attributes=["user", "metadata.url"],
+        blocking_attributes=args.blocking_attributes,
         clust_kwargs={"eps": 0.1, "min_samples": 2, "metric": "precomputed"},
     )
     with open(args.output, 'w') as f:
@@ -72,5 +76,3 @@ if __name__ == '__main__':
                 )
             )
             f.write("\n")
-
-        # LCStringSimilarity().sim(duplictes[0]["text"], duplictes[1]["text"])

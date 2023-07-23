@@ -55,6 +55,8 @@ python3 -m annotations_deduplications.scripts.find_duplicates_cli \
 
 If records were skipped due to absense of the unique id, they will be saved
 in `skipped_records.jsonl` file.
+Optionally, possible specify `blocking_attributes`, default is `["user", "metadata.url"]`.
+
 
 #### Consolidation
 
